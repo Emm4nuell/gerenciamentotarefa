@@ -10,7 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -37,4 +39,7 @@ public class Usuario {
     private LocalDate datacadastro;
     @NotBlank(message = "Campo SENHA é obrigatório")
     private String senha;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Tarefa> tarefas = new ArrayList<>();
 }
