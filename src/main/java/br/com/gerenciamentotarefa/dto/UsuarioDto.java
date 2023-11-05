@@ -25,13 +25,16 @@ public class UsuarioDto {
 
     private Long id;
     private String nome;
+    @NotBlank(message = "Campo CPF é obrigatório")
+    @CPF(message = "CPF inválido")
     private String cpf;
+    @NotBlank(message = "Campo EMAIL é obrigátorio")
+    @Email(message = "EMAIL inválido")
     private String email;
     private String contato;
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date datanascimento;
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datacadastro;
+    @NotBlank(message = "Campo SENHA é obrigatório")
     private String senha;
     private List<Tarefa> tarefas = new ArrayList<>();
 

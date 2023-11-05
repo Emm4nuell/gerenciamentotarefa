@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,8 +30,15 @@ public class UsuarioController {
 
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UsuarioDto> findById(@PathVariable Long id){
+        UsuarioDto dto = UsuarioDto.toUsuarioDto(service.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
     @PostMapping
-    public ResponseEntity<UsuarioDto> create(@RequestBody UsuarioDto dto){
+    public ResponseEntity<UsuarioDto> create(@Valid @RequestBody UsuarioDto dto){
 
         Usuario model = service.create(dto);
 
@@ -40,6 +48,20 @@ public class UsuarioController {
                 .toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UsuarioDto> update(@PathVariable Long id, @RequestBody UsuarioDto dto){
+
+        UsuarioDto usuariodto = UsuarioDto.toUsuarioDto(service.update(id, dto));
+
+        return ResponseEntity.status(HttpStatus.OK).body(usuariodto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.delete(id);
+        return ResponseEntity.ok().build();
     }
 
 }
