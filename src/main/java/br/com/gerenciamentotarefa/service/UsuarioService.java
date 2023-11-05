@@ -17,7 +17,7 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
-    //@Transactional
+    @Transactional
     public Usuario create(UsuarioDto dto) {
         Usuario usuario = UsuarioDto.toUsuario(dto);
         Optional<Usuario>  opt = repository.findByCpf(usuario.getCpf());

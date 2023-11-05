@@ -40,11 +40,11 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioDto> create(@Valid @RequestBody UsuarioDto dto){
 
-        Usuario model = service.create(dto);
+        UsuarioDto usuariodto = UsuarioDto.toUsuarioDto(service.create(dto));
 
         URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequestUri()
-                .buildAndExpand(model.getId())
+                .fromCurrentRequestUri().path("/{id}")
+                .buildAndExpand(usuariodto.getId())
                 .toUri();
 
         return ResponseEntity.created(uri).build();
