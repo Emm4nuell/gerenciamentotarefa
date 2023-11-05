@@ -35,19 +35,21 @@ public class UsuarioDto {
     private String senha;
     private List<Tarefa> tarefas = new ArrayList<>();
 
-    public UsuarioDto(Usuario usuario) {
-        this.id = usuario.getId();
-        this.nome = usuario.getNome();
-        this.cpf = usuario.getCpf();
-        this.email = usuario.getEmail();
-        this.contato = usuario.getContato();
-        this.datanascimento = usuario.getDatanascimento();
-        this.datacadastro = usuario.getDatacadastro();
-        this.senha = usuario.getSenha();
-        this.tarefas = usuario.getTarefas();
+    public static  UsuarioDto toUsuarioDto(Usuario usuario) {
+        UsuarioDto dto = new UsuarioDto();
+        dto.id = usuario.getId();
+        dto.nome = usuario.getNome();
+        dto.cpf = usuario.getCpf();
+        dto.email = usuario.getEmail();
+        dto.contato = usuario.getContato();
+        dto.datanascimento = usuario.getDatanascimento();
+        dto.datacadastro = usuario.getDatacadastro();
+        dto.senha = usuario.getSenha();
+        dto.tarefas = usuario.getTarefas();
+        return dto;
     }
 
-    public static Usuario toUsuarioDto(UsuarioDto dto){
+    public static Usuario toUsuario(UsuarioDto dto){
         Usuario usuario = new Usuario();
         usuario.setId(dto.getId());
         usuario.setNome(dto.getNome());
