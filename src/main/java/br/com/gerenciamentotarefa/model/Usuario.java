@@ -24,9 +24,9 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    @Column(unique = true)
+    //@Column(unique = true)
     private String cpf;
-    @Column(unique = true)
+    //@Column(unique = true)
     private String email;
     private String contato;
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -35,6 +35,6 @@ public class Usuario {
     private LocalDate datacadastro;
     private String senha;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Tarefa> tarefas = new ArrayList<>();
 }

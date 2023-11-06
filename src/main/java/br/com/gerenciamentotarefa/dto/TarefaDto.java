@@ -1,5 +1,6 @@
 package br.com.gerenciamentotarefa.dto;
 
+import br.com.gerenciamentotarefa.enums.StatusEnum;
 import br.com.gerenciamentotarefa.model.Tarefa;
 import br.com.gerenciamentotarefa.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,17 +30,20 @@ public class TarefaDto {
 
     /*Iniciado, processando, cancelado, concluído*/
     /*Tera que ser modificado para enum*/
-    private String status;
-    private Usuario usuario;
+    private Integer status;
+    private UsuarioDto usuario;
 
     public static Tarefa toTarefa(TarefaDto dto){
+        Usuario usuario = UsuarioDto.toUsuario(dto.getUsuario());
         Tarefa tarefa = new Tarefa();
+
         tarefa.setId(dto.getId());
         tarefa.setNometarefa(dto.getNometarefa());
         tarefa.setDescricao(dto.getDescricao());
         tarefa.setDatavencimento(dto.getDatavencimento());
         tarefa.setDatacriacao(dto.getDatacriacao());
         tarefa.setStatus(dto.getStatus());
+        tarefa.setUsuario(usuario);
         return tarefa;
     }
 
@@ -53,5 +57,4 @@ public class TarefaDto {
         dto.status = tarefa.getStatus();
         return dto;
     }
-
 }

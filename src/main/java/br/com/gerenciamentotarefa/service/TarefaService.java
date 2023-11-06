@@ -1,8 +1,12 @@
 package br.com.gerenciamentotarefa.service;
 
 import br.com.gerenciamentotarefa.dto.TarefaDto;
+import br.com.gerenciamentotarefa.dto.UsuarioDto;
+import br.com.gerenciamentotarefa.enums.StatusEnum;
 import br.com.gerenciamentotarefa.model.Tarefa;
+import br.com.gerenciamentotarefa.model.Usuario;
 import br.com.gerenciamentotarefa.repository.TarefaRepository;
+import br.com.gerenciamentotarefa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +19,21 @@ public class TarefaService {
 
     @Autowired
     private TarefaRepository repository;
+
+    @Autowired
+    private UsuarioService service;
+
     public List<Tarefa> findAll() {
         return repository.findAll();
     }
 
     @Transactional
     public Tarefa create(TarefaDto dto) {
+        System.err.printf("Get usuario: " + dto.getUsuario().toString());
+        Usuario usuario = service.findById(dto.getUsuario().getId());
         Tarefa tarefa = TarefaDto.toTarefa(dto);
+        tarefa.setUsuario(usuario);
+        tarefa.setStatus(StatusEnum.INICIADO.getId());
         return repository.save(tarefa);
     }
 

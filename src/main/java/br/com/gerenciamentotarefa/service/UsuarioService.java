@@ -2,6 +2,7 @@ package br.com.gerenciamentotarefa.service;
 
 import br.com.gerenciamentotarefa.dto.UsuarioDto;
 import br.com.gerenciamentotarefa.model.Usuario;
+import br.com.gerenciamentotarefa.repository.TarefaRepository;
 import br.com.gerenciamentotarefa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    private TarefaRepository tarefaRepository;
 
     @Transactional
     public Usuario create(UsuarioDto dto) {

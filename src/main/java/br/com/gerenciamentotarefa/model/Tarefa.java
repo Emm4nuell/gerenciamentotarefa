@@ -1,5 +1,6 @@
 package br.com.gerenciamentotarefa.model;
 
+import br.com.gerenciamentotarefa.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +31,7 @@ public class Tarefa {
 
     /*Iniciado, processando, cancelado, concluído*/
     /*Tera que ser modificado para enum*/
-    private String status;
+    private Integer status;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
