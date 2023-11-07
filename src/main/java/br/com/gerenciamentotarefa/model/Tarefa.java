@@ -23,10 +23,10 @@ public class Tarefa {
     private String nometarefa;
     private String descricao;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    //@JsonFormat(pattern = "dd/MM/yyyy")
     private Date datavencimento;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    //@JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datacriacao;
 
     /*Iniciado, processando, cancelado, concluído*/

@@ -29,9 +29,9 @@ public class Usuario {
     //@Column(unique = true)
     private String email;
     private String contato;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    //@JsonFormat(pattern = "dd/MM/yyyy")
     private Date datanascimento;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    //@JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datacadastro;
     private String senha;
 
