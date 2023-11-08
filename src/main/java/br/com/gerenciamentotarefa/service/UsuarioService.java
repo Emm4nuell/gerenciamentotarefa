@@ -5,6 +5,7 @@ import br.com.gerenciamentotarefa.model.Usuario;
 import br.com.gerenciamentotarefa.repository.TarefaRepository;
 import br.com.gerenciamentotarefa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,6 +15,9 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UsuarioRepository repository;
@@ -28,6 +32,9 @@ public class UsuarioService {
         if (opt.isPresent()){
             throw new NullPointerException("Usuario já esta cadastrado no sistema");
         }
+
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
+
         return repository.save(usuario);
     }
 
