@@ -1,6 +1,8 @@
 package br.com.gerenciamentotarefa.service;
 
+import br.com.gerenciamentotarefa.dto.AuthDto;
 import br.com.gerenciamentotarefa.model.Usuario;
+import br.com.gerenciamentotarefa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,19 +18,31 @@ public class UserDetailsServiceImp implements UserDetailsService {
     private UsuarioService service;
 
     @Autowired
+    private UsuarioRepository repository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public UserDetails autenticar(Usuario usuario){
+        UserDetails user = loadUserByUsername(usuario.getEmail());
+        boolean issenha=  passwordEncoder.matches(usuario.getSenha(), user.getPassword());
+
+       if (issenha){
+           return user;
+       }
+        throw new UsernameNotFoundException("Usuário ou senha inválida!");
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if(!username.equals("eduardo")){
-            throw new UsernameNotFoundException("Usuário inválido!");
-        }
 
+        Usuario usuairo = repository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário ou senha inválida!"));
 
         return User
                 .builder()
-                .username("eduardo")
-                .password(passwordEncoder.encode("123"))
+                .username(usuairo.getEmail())
+                .password(usuairo.getSenha())
                 .roles("USER")
                 .build();
     }

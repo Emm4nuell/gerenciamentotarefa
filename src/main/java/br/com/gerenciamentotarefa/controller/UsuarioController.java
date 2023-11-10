@@ -1,7 +1,10 @@
 package br.com.gerenciamentotarefa.controller;
 
+import br.com.gerenciamentotarefa.dto.AuthDto;
+import br.com.gerenciamentotarefa.dto.TokenDto;
 import br.com.gerenciamentotarefa.dto.UsuarioDto;
 import br.com.gerenciamentotarefa.model.Usuario;
+import br.com.gerenciamentotarefa.service.UserDetailsServiceImp;
 import br.com.gerenciamentotarefa.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
+    @Autowired
+    private UserDetailsServiceImp detailsServiceImp;
+
     @GetMapping
     public ResponseEntity<List<UsuarioDto>> findAll(){
 
@@ -37,7 +43,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
-    @PostMapping
+    @PostMapping("/cadastrar")
     public ResponseEntity<UsuarioDto> create(@Valid @RequestBody UsuarioDto dto){
 
         UsuarioDto usuariodto = UsuarioDto.toUsuarioDto(service.create(dto));
@@ -48,6 +54,13 @@ public class UsuarioController {
                 .toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<String> autenticar(@RequestBody AuthDto dto){
+        TokenDto tokenDto = service.authenticar(dto);
+        String token = "Bearer ".concat(tokenDto.getToken());
+        return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
     @PutMapping(value = "/{id}")

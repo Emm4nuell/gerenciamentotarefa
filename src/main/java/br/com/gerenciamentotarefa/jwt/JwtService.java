@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,16 +16,19 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private String chave = "ZWR1YXJkbyBlbW1hbnVlbA==";
-    private Integer expiration = 3;
+    @Value("${spring.jwt.chave}")
+    private String chave;
+
+    @Value("${spring.jwt.expiration}")
+    private Integer expiration;
 
     public String gerarToken(Usuario usuario){
-        LocalDateTime datetime = LocalDateTime.now().plusMinutes(expiration);
+        LocalDateTime datetime = LocalDateTime.now().plusMinutes(3);
         Instant instant = datetime.atZone(ZoneId.systemDefault()).toInstant();
         Date data = Date.from(instant);
 
         return Jwts.builder()
-                .setSubject(usuario.getCpf())
+                .setSubject(usuario.getEmail())
                 .setExpiration(data)
                 .signWith(SignatureAlgorithm.HS512, chave)
                 .compact();

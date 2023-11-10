@@ -1,12 +1,18 @@
 package br.com.gerenciamentotarefa.service;
 
+import br.com.gerenciamentotarefa.dto.AuthDto;
+import br.com.gerenciamentotarefa.dto.TokenDto;
 import br.com.gerenciamentotarefa.dto.UsuarioDto;
+import br.com.gerenciamentotarefa.jwt.JwtService;
 import br.com.gerenciamentotarefa.model.Usuario;
 import br.com.gerenciamentotarefa.repository.TarefaRepository;
 import br.com.gerenciamentotarefa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import springfox.documentation.swagger2.mappers.ModelMapper;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -24,6 +30,12 @@ public class UsuarioService {
 
     @Autowired
     private TarefaRepository tarefaRepository;
+
+    @Autowired
+    private UserDetailsServiceImp userDetailsServiceImp;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Transactional
     public Usuario create(UsuarioDto dto) {
@@ -63,5 +75,20 @@ public class UsuarioService {
         Optional<Usuario> opt = repository.findById(id);
         opt.orElseThrow(() -> new NullPointerException("Usuario não encontrado!"));
         repository.deleteById(id);
+    }
+
+    public TokenDto authenticar(AuthDto dto){
+
+        try {
+            Usuario usuario = AuthDto.toUsuario(dto);
+            UserDetails details = userDetailsServiceImp.autenticar(usuario);
+            String token = jwtService.gerarToken(usuario);
+            TokenDto tokenDto = new TokenDto();
+            tokenDto.setToken(token);
+            tokenDto.setUsuario(usuario.getEmail());
+            return tokenDto;
+        }catch (UsernameNotFoundException u){
+            throw new UsernameNotFoundException("Usuário ou senha inválida!");
+        }
     }
 }
