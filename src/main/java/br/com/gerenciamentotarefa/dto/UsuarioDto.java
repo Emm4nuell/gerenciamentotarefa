@@ -2,14 +2,13 @@ package br.com.gerenciamentotarefa.dto;
 
 
 
+import br.com.gerenciamentotarefa.enums.PerfilEnum;
 import br.com.gerenciamentotarefa.model.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -30,6 +29,7 @@ public class UsuarioDto {
     private LocalDate datacadastro;
     //@NotBlank(message = "Campo SENHA é obrigatório")
     private String senha;
+    private Set<Integer> perfis = new HashSet<>();
     private List<TarefaDto> tarefas = new ArrayList<>();
 
     public static UsuarioDto toUsuarioDto(Usuario usuario) {
@@ -47,6 +47,7 @@ public class UsuarioDto {
         dto.datanascimento = usuario.getDatanascimento();
         dto.datacadastro = usuario.getDatacadastro();
         dto.senha = usuario.getSenha();
+        dto.perfis = usuario.getPerfis();
         dto.tarefas = tfdto;
         return dto;
     }
@@ -61,6 +62,7 @@ public class UsuarioDto {
         usuario.setDatanascimento(dto.getDatanascimento());
         usuario.setDatacadastro(dto.getDatacadastro());
         usuario.setSenha(dto.getSenha());
+        usuario.setPerfis(dto.getPerfis().stream().map(x -> PerfilEnum.toPerfil(x)).collect(Collectors.toSet()));
         //usuario.setTarefas(dto.getTarefas());
         return usuario;
     }

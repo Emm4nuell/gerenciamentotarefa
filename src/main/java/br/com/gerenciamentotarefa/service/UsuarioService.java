@@ -12,11 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import springfox.documentation.swagger2.mappers.ModelMapper;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -41,12 +39,12 @@ public class UsuarioService {
     public Usuario create(UsuarioDto dto) {
         Usuario usuario = UsuarioDto.toUsuario(dto);
         Optional<Usuario>  opt = repository.findByCpf(usuario.getCpf());
+
         if (opt.isPresent()){
             throw new NullPointerException("Usuario já esta cadastrado no sistema");
         }
 
         usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
-
         return repository.save(usuario);
     }
 
