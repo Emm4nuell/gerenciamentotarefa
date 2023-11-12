@@ -17,10 +17,10 @@ public enum PerfilEnum {
         this.perfil = perfil;
     }
 
-    public static Integer toPerfil(Integer id){
+    public static PerfilEnum toPerfil(Integer id){
         for(PerfilEnum x : PerfilEnum.values()){
             if (id.equals(x.getId())){
-                return x.getId();
+                return x;
             }
         }
         throw new IllegalArgumentException("Perfil inválido!");

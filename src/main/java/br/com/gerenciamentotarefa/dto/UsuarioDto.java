@@ -62,7 +62,7 @@ public class UsuarioDto {
         usuario.setDatanascimento(dto.getDatanascimento());
         usuario.setDatacadastro(dto.getDatacadastro());
         usuario.setSenha(dto.getSenha());
-        usuario.setPerfis(dto.getPerfis().stream().map(x -> PerfilEnum.toPerfil(x)).collect(Collectors.toSet()));
+        usuario.setPerfis(dto.getPerfis().stream().map(x -> PerfilEnum.toPerfil(x).getId()).collect(Collectors.toSet()));
         //usuario.setTarefas(dto.getTarefas());
         return usuario;
     }

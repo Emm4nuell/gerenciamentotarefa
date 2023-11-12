@@ -1,6 +1,7 @@
 package br.com.gerenciamentotarefa.service;
 
 import br.com.gerenciamentotarefa.dto.AuthDto;
+import br.com.gerenciamentotarefa.enums.PerfilEnum;
 import br.com.gerenciamentotarefa.model.Usuario;
 import br.com.gerenciamentotarefa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
@@ -38,12 +42,15 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
         Usuario usuairo = repository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário ou senha inválida!"));
+        List<String> roles = usuairo.getPerfis().stream().map(x -> PerfilEnum.toPerfil(x).getPerfil()).collect(Collectors.toList());
+        String[] arrayrole = roles.toArray(new String[0]);
+
 
         return User
                 .builder()
                 .username(usuairo.getEmail())
                 .password(usuairo.getSenha())
-                .roles("USER")
+                .roles(arrayrole)
                 .build();
     }
 }
