@@ -57,7 +57,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<String> autenticar(@RequestBody AuthDto dto){
+    public ResponseEntity<String> autenticar(@Valid @RequestBody AuthDto dto){
         TokenDto tokenDto = service.authenticar(dto);
         String token = "Bearer ".concat(tokenDto.getToken());
         return ResponseEntity.status(HttpStatus.OK).body(token);
@@ -72,7 +72,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete( @PathVariable Long id){
         service.delete(id);
         return ResponseEntity.ok().build();
     }
