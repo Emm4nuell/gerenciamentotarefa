@@ -19,6 +19,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+
     @Autowired
     private UserDetailsServiceImp userDetailsServiceImp;
 
@@ -41,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/usuario/**").hasRole("ADMINISTRADOR")
                 .antMatchers(HttpMethod.POST, "/usuario/cadastrar").permitAll()
+                .antMatchers(AUTH_WHITE_LIST).permitAll()
                 .antMatchers(HttpMethod.POST, "/usuario/auth").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -49,4 +52,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
+    private static final String[] AUTH_WHITE_LIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/v2/api-docs/**",
+            "/swagger-resources/**",
+            "/**"
+    };
 }
