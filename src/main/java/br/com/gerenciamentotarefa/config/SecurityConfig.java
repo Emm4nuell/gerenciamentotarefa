@@ -41,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/usuario/**").hasRole("ADMINISTRADOR")
+                .antMatchers(HttpMethod.GET, "/usuario/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/usuario/cadastrar").permitAll()
                 .antMatchers(AUTH_WHITE_LIST).permitAll()
                 .antMatchers(HttpMethod.POST, "/usuario/auth").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

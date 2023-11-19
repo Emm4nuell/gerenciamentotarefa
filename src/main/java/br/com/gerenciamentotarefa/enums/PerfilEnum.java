@@ -3,6 +3,8 @@ package br.com.gerenciamentotarefa.enums;
 import lombok.Data;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 public enum PerfilEnum {
 
@@ -18,6 +20,11 @@ public enum PerfilEnum {
     }
 
     public static PerfilEnum toPerfil(Integer id){
+
+        if(id == null){
+            return PerfilEnum.FUNCIONARIO;
+        }
+
         for(PerfilEnum x : PerfilEnum.values()){
             if (id.equals(x.getId())){
                 return x;

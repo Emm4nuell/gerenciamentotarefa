@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,12 +31,11 @@ public class TarefaService {
 
     @Transactional
     public Tarefa create(TarefaDto dto) {
-        System.err.printf("Get usuario: " + dto.getUsuario().toString());
         Usuario usuario = service.findById(dto.getUsuario().getId());
         Tarefa tarefa = TarefaDto.toTarefa(dto);
         tarefa.setUsuario(usuario);
         tarefa.setDatacriacao(LocalDate.now());
-        tarefa.setStatus(StatusEnum.INICIADO.getId());
+        tarefa.setStatus(StatusEnum.toStatus(dto.getStatus()).getId());
         return repository.save(tarefa);
     }
 

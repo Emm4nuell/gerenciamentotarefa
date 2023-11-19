@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,17 +24,23 @@ public class Tarefa {
     private String nometarefa;
     private String descricao;
 
-    //@JsonFormat(pattern = "dd/MM/yyyy")
-    private Date datavencimento;
-
-    //@JsonFormat(pattern = "dd/MM/yyyy")
+    //@JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate datacriacao;
+
+    //@JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate datarecebimento;
+
+    //@JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dataconcluido;
 
     /*Iniciado, processando, cancelado, concluído*/
     /*Tera que ser modificado para enum*/
     private Integer status;
 
+    private String observacao;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
 }

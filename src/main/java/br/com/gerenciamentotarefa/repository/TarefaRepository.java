@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface TarefaRepository extends JpaRepository<Tarefa, Long> {
 
-    @Query(value = "select * from tarefa t order by t.datavencimento asc", nativeQuery = true)
+    @Query(value = "select * from tarefa t order by t.dataconcluido asc", nativeQuery = true)
     List<Tarefa> findAll();
 }

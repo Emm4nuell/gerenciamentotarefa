@@ -1,0 +1,30 @@
+
+# database configs h2
+
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    username: root
+    password:
+    url: jdbc:h2:~/test
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+# remove a mensagem de erro trace do json
+server:
+  error:
+    include-stacktrace: never

@@ -7,6 +7,10 @@ import br.com.gerenciamentotarefa.model.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,17 +21,18 @@ import java.util.stream.Collectors;
 public class UsuarioDto {
 
     private Long id;
+    @NotBlank(message = "Campo nome é obrigatório")
     private String nome;
-    //@NotBlank(message = "Campo CPF é obrigatório")
-    //@CPF(message = "CPF inválido")
+    @NotBlank(message = "Campo CPF é obrigatório")
+    @CPF(message = "CPF inválido")
     private String cpf;
-    //@NotBlank(message = "Campo EMAIL é obrigátorio")
-    //@Email(message = "EMAIL inválido")
+    @NotBlank(message = "Campo EMAIL é obrigátorio")
+    @Email(message = "EMAIL inválido")
     private String email;
     private String contato;
     private Date datanascimento;
     private LocalDate datacadastro;
-    //@NotBlank(message = "Campo SENHA é obrigatório")
+    @NotBlank(message = "Campo SENHA é obrigatório")
     private String senha;
     private Set<Integer> perfis = new HashSet<>();
     private List<TarefaDto> tarefas = new ArrayList<>();
@@ -64,6 +69,7 @@ public class UsuarioDto {
         usuario.setSenha(dto.getSenha());
         usuario.setPerfis(dto.getPerfis().stream().map(x -> PerfilEnum.toPerfil(x).getId()).collect(Collectors.toSet()));
         //usuario.setTarefas(dto.getTarefas());
+
         return usuario;
     }
 }
