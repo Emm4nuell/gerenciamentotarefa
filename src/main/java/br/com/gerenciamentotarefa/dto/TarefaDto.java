@@ -30,6 +30,7 @@ public class TarefaDto {
     /*Iniciado, processando, cancelado, concluído*/
     /*Tera que ser modificado para enum*/
     private Integer status;
+    private Integer prioridade;
     private String observacao;
     private UsuarioDto usuario;
 
@@ -45,6 +46,7 @@ public class TarefaDto {
         tarefa.setDataconcluido(dto.getDataconcluido());
         tarefa.setObservacao(dto.getObservacao());
         tarefa.setStatus(dto.getStatus());
+        tarefa.setPrioridade(dto.getPrioridade());
         tarefa.setUsuario(usuario);
         return tarefa;
     }
@@ -59,6 +61,7 @@ public class TarefaDto {
         dto.dataconcluido = tarefa.getDataconcluido();
         dto.observacao = tarefa.getObservacao();
         dto.status = tarefa.getStatus();
+        dto.prioridade = tarefa.getPrioridade();
         return dto;
     }
 }

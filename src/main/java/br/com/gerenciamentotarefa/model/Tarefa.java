@@ -37,6 +37,8 @@ public class Tarefa {
     /*Tera que ser modificado para enum*/
     private Integer status;
 
+    private Integer prioridade;
+
     private String observacao;
 
     @ManyToOne
