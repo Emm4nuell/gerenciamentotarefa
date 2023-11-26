@@ -2,20 +2,20 @@ package br.com.gerenciamentotarefa.model;
 
 import br.com.gerenciamentotarefa.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class Tarefa {
 
     @Id
@@ -42,5 +42,8 @@ public class Tarefa {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    /*@OneToMany(mappedBy = "tarefa")
+    private Set<Usuario> usuarios = new HashSet<>();*/
 
 }

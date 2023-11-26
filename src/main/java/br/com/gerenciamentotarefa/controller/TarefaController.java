@@ -43,6 +43,12 @@ public class TarefaController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PutMapping(value = "/monitoramento/{id}")
+    public ResponseEntity<TarefaDto> updateData(@PathVariable Long id, @RequestBody TarefaDto dto){
+        TarefaDto tarefaDto = TarefaDto.toTarefaDto(service.updateData(id, dto));
+        return ResponseEntity.status(HttpStatus.OK).body(tarefaDto);
+    }
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<TarefaDto> update(@PathVariable Long id, @Valid @RequestBody TarefaDto dto){
         TarefaDto tarefadto = TarefaDto.toTarefaDto(service.update(id, dto));

@@ -4,9 +4,7 @@ package br.com.gerenciamentotarefa.dto;
 
 import br.com.gerenciamentotarefa.enums.PerfilEnum;
 import br.com.gerenciamentotarefa.model.Usuario;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
@@ -16,8 +14,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class UsuarioDto {
 
     private Long id;

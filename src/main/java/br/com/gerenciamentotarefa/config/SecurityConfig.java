@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/usuario/cadastrar").permitAll()
                 .antMatchers(AUTH_WHITE_LIST).permitAll()
                 .antMatchers(HttpMethod.POST, "/usuario/auth").permitAll()
+                .antMatchers("/tarefa/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement()

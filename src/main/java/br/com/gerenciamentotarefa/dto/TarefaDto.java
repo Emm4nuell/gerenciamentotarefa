@@ -4,9 +4,7 @@ import br.com.gerenciamentotarefa.enums.StatusEnum;
 import br.com.gerenciamentotarefa.model.Tarefa;
 import br.com.gerenciamentotarefa.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,8 +17,6 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TarefaDto {
 
     private Long id;
@@ -54,7 +50,6 @@ public class TarefaDto {
     }
 
     public static TarefaDto toTarefaDto(Tarefa tarefa){
-        SimpleDateFormat formatt = new SimpleDateFormat("dd/MM/yyyy");
         TarefaDto dto = new TarefaDto();
         dto.id = tarefa.getId();
         dto.nometarefa = tarefa.getNometarefa();

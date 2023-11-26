@@ -49,6 +49,7 @@ public class TarefaService {
         Optional<Tarefa> opt = repository.findById(id);
         opt.orElseThrow(() -> new NullPointerException("Tarefa não localizada!"));
         Tarefa tarefa = TarefaDto.toTarefa(dto);
+        System.err.println(tarefa.getUsuario().getId());
         tarefa.setId(id);
         return repository.save(tarefa);
     }
@@ -57,5 +58,24 @@ public class TarefaService {
         Optional<Tarefa> opt = repository.findById(id);
         opt.orElseThrow(() -> new NullPointerException("Tarefa não localizada!"));
         repository.deleteById(id);
+    }
+
+    public Tarefa updateData(Long id, TarefaDto dto) {
+
+        Tarefa tarefa = findById(id);
+
+        System.out.println(tarefa);
+
+        if(dto.getDatarecebimento() == null){
+            tarefa.setDatarecebimento(LocalDate.now());
+            tarefa.setStatus(1);
+        }else{
+            if (dto.getDataconcluido() == null){
+                tarefa.setDataconcluido(LocalDate.now());
+                tarefa.setStatus(2);
+            }
+        }
+        return repository.save(tarefa);
+        //return tarefa;
     }
 }
