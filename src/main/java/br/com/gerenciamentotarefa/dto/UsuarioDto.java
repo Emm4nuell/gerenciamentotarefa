@@ -30,6 +30,7 @@ public class UsuarioDto {
     private LocalDate datacadastro;
     @NotBlank(message = "Campo SENHA é obrigatório")
     private String senha;
+    private String fotoperfil;
     private Set<Integer> perfis = new HashSet<>();
     private List<TarefaDto> tarefas = new ArrayList<>();
 
@@ -48,6 +49,7 @@ public class UsuarioDto {
         dto.datanascimento = usuario.getDatanascimento();
         dto.datacadastro = usuario.getDatacadastro();
         dto.senha = usuario.getSenha();
+        dto.fotoperfil = usuario.getFotoperfil();
         dto.perfis = usuario.getPerfis();
         dto.tarefas = tfdto;
         return dto;
@@ -63,6 +65,7 @@ public class UsuarioDto {
         usuario.setDatanascimento(dto.getDatanascimento());
         usuario.setDatacadastro(dto.getDatacadastro());
         usuario.setSenha(dto.getSenha());
+        usuario.setFotoperfil(dto.getFotoperfil());
         usuario.setPerfis(dto.getPerfis().stream().map(x -> PerfilEnum.toPerfil(x).getId()).collect(Collectors.toSet()));
         //usuario.setTarefas(dto.getTarefas());
 

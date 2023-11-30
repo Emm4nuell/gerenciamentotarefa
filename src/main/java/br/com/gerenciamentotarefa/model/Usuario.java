@@ -27,6 +27,7 @@ public class Usuario {
     //@JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datacadastro;
     private String senha;
+    private String fotoperfil;
 
     /* Vai ter uma tabela no banco com o nome perfis */
     @ElementCollection(fetch = FetchType.LAZY) // Tera que vier essa lista de perfis do banco de dados obrigatoriamente

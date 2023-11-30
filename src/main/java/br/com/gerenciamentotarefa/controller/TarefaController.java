@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/tarefa")
-@CrossOrigin(origins = "http://localhost:4200/")
+//@CrossOrigin(origins = "https://gerenciamentotarefas.vercel.app")
 public class TarefaController {
 
     @Autowired

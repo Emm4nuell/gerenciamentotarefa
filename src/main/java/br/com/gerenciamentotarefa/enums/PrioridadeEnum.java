@@ -1,5 +1,6 @@
 package br.com.gerenciamentotarefa.enums;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 
 @Getter
