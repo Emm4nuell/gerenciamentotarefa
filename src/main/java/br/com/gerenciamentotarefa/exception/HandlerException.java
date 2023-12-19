@@ -3,6 +3,7 @@ package br.com.gerenciamentotarefa.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -61,5 +62,17 @@ public class HandlerException {
                 null);
 
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorException> usernameNotFoundException(UsernameNotFoundException exception, HttpServletRequest request){
+        ErrorException error = new ErrorException(
+                LocalDateTime.now(),
+                HttpStatus.FORBIDDEN.value(),
+                "Necessario ativação da conta",
+                "Necessario ativação da conta",
+                request.getRequestURI().toString(),
+                null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

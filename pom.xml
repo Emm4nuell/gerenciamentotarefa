@@ -14,7 +14,7 @@
 	<name>gerenciamentotarefa</name>
 	<description>Sistema de Gerenciamento de Tarefa</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -41,6 +41,12 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.28</version>
+		</dependency>
+
+		<!-- Dependencia do kafka -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
 		<!-- Dependencia do JWT -->

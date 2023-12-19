@@ -42,15 +42,18 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
         Usuario usuairo = repository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário ou senha inválida!"));
-        List<String> roles = usuairo.getPerfis().stream().map(x -> PerfilEnum.toPerfil(x).getPerfil()).collect(Collectors.toList());
-        String[] arrayrole = roles.toArray(new String[0]);
 
+        if(!usuairo.isStatus()){
+            System.out.println("Usuario necessita ser ativado para utilização");
+            throw new UsernameNotFoundException("Ativação obrigatória do usuario!" + usuairo.getEmail());
+//            throw new UsernameNotFoundException("Ativação obrigatória do usuario!");
+        }
 
         return User
                 .builder()
                 .username(usuairo.getEmail())
                 .password(usuairo.getSenha())
-                .roles(arrayrole)
+                .roles(String.valueOf(usuairo.getPerfis()))
                 .build();
     }
 }

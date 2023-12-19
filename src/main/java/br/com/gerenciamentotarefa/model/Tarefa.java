@@ -41,6 +41,7 @@ public class Tarefa {
 
     private String observacao;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

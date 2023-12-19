@@ -46,6 +46,8 @@ public class UsuarioController {
     @PostMapping("/cadastrar")
     public ResponseEntity<UsuarioDto> create(@Valid @RequestBody UsuarioDto dto){
 
+        System.err.println("Usuario: "+ dto);
+
         UsuarioDto usuariodto = UsuarioDto.toUsuarioDto(service.create(dto));
 
         URI uri = ServletUriComponentsBuilder
@@ -58,6 +60,7 @@ public class UsuarioController {
 
     @PostMapping("/auth")
     public ResponseEntity<String> autenticar(@Valid @RequestBody AuthDto dto){
+//        System.err.println("Auth recebido do front-end: " + dto);
         TokenDto tokenDto = service.authenticar(dto);
         String token = "Bearer ".concat(tokenDto.getToken());
         return ResponseEntity.status(HttpStatus.OK).body(token);
@@ -67,7 +70,6 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDto> update(@PathVariable Long id, @RequestBody UsuarioDto dto){
 
         UsuarioDto usuariodto = UsuarioDto.toUsuarioDto(service.update(id, dto));
-
         return ResponseEntity.status(HttpStatus.OK).body(usuariodto);
     }
 
@@ -75,6 +77,13 @@ public class UsuarioController {
     public ResponseEntity<Void> delete( @PathVariable Long id){
         service.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/chaveativacao/{chave}")
+    public ResponseEntity<Void> ativacao(@PathVariable String chave){
+        System.err.println("Ativação foi chamada com sucesso!");
+        service.ativacao(chave);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

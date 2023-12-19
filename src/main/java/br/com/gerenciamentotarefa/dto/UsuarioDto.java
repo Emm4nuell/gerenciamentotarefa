@@ -31,7 +31,9 @@ public class UsuarioDto {
     @NotBlank(message = "Campo SENHA é obrigatório")
     private String senha;
     private String fotoperfil;
-    private Set<Integer> perfis = new HashSet<>();
+    private boolean status;
+    private String chaveativacao;
+    private Set<PerfilEnum> perfis = new HashSet<>();
     private List<TarefaDto> tarefas = new ArrayList<>();
 
     public static UsuarioDto toUsuarioDto(Usuario usuario) {
@@ -50,6 +52,8 @@ public class UsuarioDto {
         dto.datacadastro = usuario.getDatacadastro();
         dto.senha = usuario.getSenha();
         dto.fotoperfil = usuario.getFotoperfil();
+        dto.chaveativacao = usuario.getChaveativacao();
+        dto.status = usuario.isStatus();
         dto.perfis = usuario.getPerfis();
         dto.tarefas = tfdto;
         return dto;
@@ -66,7 +70,9 @@ public class UsuarioDto {
         usuario.setDatacadastro(dto.getDatacadastro());
         usuario.setSenha(dto.getSenha());
         usuario.setFotoperfil(dto.getFotoperfil());
-        usuario.setPerfis(dto.getPerfis().stream().map(x -> PerfilEnum.toPerfil(x).getId()).collect(Collectors.toSet()));
+        usuario.setPerfis(dto.getPerfis());
+        usuario.setChaveativacao(dto.getChaveativacao());
+        usuario.setStatus(dto.isStatus());
         //usuario.setTarefas(dto.getTarefas());
 
         return usuario;

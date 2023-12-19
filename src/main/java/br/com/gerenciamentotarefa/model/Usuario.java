@@ -28,12 +28,18 @@ public class Usuario {
     private LocalDate datacadastro;
     private String senha;
     private String fotoperfil;
+    private String setor;
+    private String sexo;
+    private boolean status;
+    private String chaveativacao;
 
     /* Vai ter uma tabela no banco com o nome perfis */
     @ElementCollection(fetch = FetchType.LAZY) // Tera que vier essa lista de perfis do banco de dados obrigatoriamente
     @CollectionTable(name = "PERFIS")
-    private Set<Integer> perfis = new HashSet<>();
+    @Enumerated(EnumType.ORDINAL)
+    private Set<PerfilEnum> perfis = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Tarefa> tarefas = new ArrayList<>();
 

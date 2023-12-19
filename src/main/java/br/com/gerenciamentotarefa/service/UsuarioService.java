@@ -8,6 +8,7 @@ import br.com.gerenciamentotarefa.model.Usuario;
 import br.com.gerenciamentotarefa.repository.TarefaRepository;
 import br.com.gerenciamentotarefa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,9 +17,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UsuarioService {
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -34,6 +39,7 @@ public class UsuarioService {
 
     @Autowired
     private JwtService jwtService;
+    private String url = "http://206.42.51.75:8090/usuario/chaveativacao/";
 
     @Transactional
     public Usuario create(UsuarioDto dto) {
@@ -44,6 +50,10 @@ public class UsuarioService {
             throw new NullPointerException("Usuario já esta cadastrado no sistema");
         }
 
+        String chave = chaveValidacao();
+        kafkaTemplate.send("topic-1", url.concat(chave));
+        usuario.setStatus(false);
+        usuario.setChaveativacao(chave);
         usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         return repository.save(usuario);
     }
@@ -78,6 +88,8 @@ public class UsuarioService {
     public TokenDto authenticar(AuthDto dto){
 
         try {
+//            String chave = chaveValidacao();
+//            kafkaTemplate.send("topic-1", chave);
             Usuario usuario = AuthDto.toUsuario(dto);
             UserDetails details = userDetailsServiceImp.autenticar(usuario);
             String token = jwtService.gerarToken(usuario);
@@ -87,6 +99,33 @@ public class UsuarioService {
             return tokenDto;
         }catch (UsernameNotFoundException u){
             throw new UsernameNotFoundException("Usuário ou senha inválida!");
+        }
+    }
+
+
+
+    //Gerado de chave para ativação
+    protected String chaveValidacao(){
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int x = 0 ; x < 5 ; x++){
+            int index = random.nextInt(caracteres.length());
+            sb.append(caracteres.charAt(index));
+        }
+        return sb.toString();
+    }
+
+    public void ativacao(String chave) {
+        Optional<Usuario> opt = repository.findByChaveativacao(chave);
+        if(opt.isPresent()){
+            Usuario usuario = opt.get();
+            usuario.setId(usuario.getId());
+            usuario.setChaveativacao("");
+            usuario.setStatus(true);
+            repository.save(usuario);
+        }else{
+            throw new NullPointerException("Chave de ativação inválida!");
         }
     }
 }

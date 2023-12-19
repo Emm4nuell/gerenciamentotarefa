@@ -23,7 +23,7 @@ public class JwtService {
     private Integer expiration;
 
     public String gerarToken(Usuario usuario){
-        LocalDateTime datetime = LocalDateTime.now().plusMinutes(3);
+        LocalDateTime datetime = LocalDateTime.now().plusMinutes(2);
         Instant instant = datetime.atZone(ZoneId.systemDefault()).toInstant();
         Date data = Date.from(instant);
 
